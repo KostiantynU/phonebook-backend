@@ -6,8 +6,9 @@ const cors = require('cors');
 const fsPromises = require('fs').promises;
 const fs = require('fs');
 const path = require('path');
+const mongoose = require('mongoose');
 
-const contactsRouter = require('./routers/contactsRouter/contactsRouter');
+const contactsRouter = require('./routers/contactsRouter');
 
 const phoneBookBackend = express();
 
@@ -32,7 +33,7 @@ phoneBookBackend.get('/', (req, res) => {
 phoneBookBackend.use('/contacts', contactsRouter);
 
 phoneBookBackend.use((_, res, __) => {
-  res.status(404).json({ statys: error, code: 404, message: 'Not Found!' });
+  res.status(404).json({ status: error, code: 404, message: 'Not Found!' });
 });
 
 phoneBookBackend.use((error, _, res, __) => {
@@ -42,4 +43,4 @@ phoneBookBackend.use((error, _, res, __) => {
     .json({ status: fail, code: 500, message: error.message, data: 'Internal sever error' });
 });
 
-module.exports = { phoneBookBackend };
+module.exports = { phoneBookBackend, mongoose };
