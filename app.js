@@ -8,17 +8,19 @@ const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
 
-const contactsRouter = require('./routers/contactsRouter');
+const contactsRouter = require('./routes/api/contactsRouter');
 
 const phoneBookBackend = express();
 
 phoneBookBackend.use(express.json());
 phoneBookBackend.use(cors());
+// phoneBookBackend.use('/public', express.static(__dirname + '/public')); // Middleware for sending public files, maybe I use it later
 
 const logFileStream = fs.createWriteStream(path.join(__dirname, './log/server.log'), {
   flags: 'a',
 });
-phoneBookBackend.use(logger('combined', { stream: logFileStream }));
+const formatLogger = phoneBookBackend.get('env') === 'development' ? 'combined' : 'short';
+phoneBookBackend.use(logger(formatLogger, { stream: logFileStream }));
 
 phoneBookBackend.use(async (req, res, next) => {
   console.log('This is my own middleware');
@@ -30,7 +32,7 @@ phoneBookBackend.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-phoneBookBackend.use('/contacts', contactsRouter);
+phoneBookBackend.use('/api/contacts', contactsRouter);
 
 phoneBookBackend.use((_, res, __) => {
   res.status(404).json({ status: error, code: 404, message: 'Not Found!' });

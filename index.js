@@ -2,6 +2,14 @@ const { phoneBookBackend, mongoose } = require('./app');
 
 const { DB_HOST } = process.env;
 
-phoneBookBackend.listen(3000, () => {
-  console.log('Server started!');
-});
+mongoose
+  .connect(DB_HOST)
+  .then(() => {
+    phoneBookBackend.listen(3000, () => {
+      console.log('Server started!');
+    });
+  })
+  .catch(error => {
+    console.log('Something goes wrong');
+    process.exit(1);
+  });
