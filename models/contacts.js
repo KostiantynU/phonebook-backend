@@ -8,7 +8,7 @@ const contactsSchema = new Schema(
     phoneNumber: { type: Number, required: [true, 'Number of contact is required!'] },
     favorite: { type: Boolean, default: false },
     category: { type: String, default: 'All' },
-    // owner: Objectid,
+    owner: { type: mongoose.ObjectId },
   },
   { versionKey: false, timestamps: true }
 );

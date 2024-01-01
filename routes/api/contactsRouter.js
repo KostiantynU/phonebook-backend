@@ -7,8 +7,12 @@ const contactsRouter = express.Router();
 contactsRouter.get('/:contactId', async (req, res) => {
   try {
     const { contactId } = req.params;
-
+    console.log('contactId', contactId);
     const contactById = await getContactById(contactId);
+
+    if (!contactById) {
+      res.status(404).json({ message: `Not found contacts with id ${contactId}` });
+    }
 
     res.status(200).json({
       message: `Here will be all contacts by user id = ${contactId}`,
@@ -21,7 +25,6 @@ contactsRouter.get('/:contactId', async (req, res) => {
 
 contactsRouter.post('/:contactId', async (req, res) => {
   try {
-    console.log(req.body);
     const newContact = await addContact({ ...req.body });
     res.json({ newContact });
   } catch (error) {

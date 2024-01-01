@@ -1,4 +1,4 @@
-const message = {
+const messages = {
   400: 'Bad request',
   401: 'Anuthorized',
   403: 'Forbidden',
@@ -6,7 +6,7 @@ const message = {
   409: 'Conflict',
 };
 
-const RequestError = (status, message = message[status]) => {
+const RequestError = (status, message = messages[status]) => {
   const error = new Error(message);
   error.status = status;
   return error;

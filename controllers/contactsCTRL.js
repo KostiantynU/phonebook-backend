@@ -12,13 +12,18 @@ const getAllContacts = async (req, res) => {
 };
 
 const getContactById = async contactId => {
-  const contactById = await Contact.findOne({ _id: contactId });
+  try {
+    console.log('ContactId in CTRL', contactId);
+    const contactById = await Contact.findById(contactId);
+    console.log('contactById', contactById);
+    if (!contactById) {
+      return null;
+    }
 
-  if (!contactById) {
-    return null;
+    return contactById;
+  } catch (error) {
+    console.log(error.message);
   }
-
-  return contactById;
 };
 
 const addContact = async reqBody => {
