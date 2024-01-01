@@ -11,10 +11,8 @@ const getAllContacts = async (req, res) => {
   return allContacts;
 };
 
-const getContactById = async (req, res) => {
-  const { userId } = req.user;
-  const { contactId } = req.params;
-  const contactById = await Contact.find({ owner: userId, _id: contactId });
+const getContactById = async contactId => {
+  const contactById = await Contact.findOne({ _id: contactId });
 
   if (!contactById) {
     return null;
@@ -23,11 +21,18 @@ const getContactById = async (req, res) => {
   return contactById;
 };
 
-const addContact = async (req, res) => {
-  const { userId } = req.user;
-  const newContact = await Contact.create({ ...req.body });
+const addContact = async reqBody => {
+  // const { userId } = req.user;
+  const newContact = await Contact.create({ ...reqBody });
+  console.log(newContact);
 
   return newContact;
 };
 
 const deleteContactById = async (req, res) => {};
+
+module.exports = {
+  getAllContacts,
+  getContactById,
+  addContact,
+};

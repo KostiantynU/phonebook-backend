@@ -1,14 +1,14 @@
-const { mongoose } = require('../app');
-
+// const { mongoose } = require('../app');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const contactsSchema = new Schema(
   {
     name: { type: String, required: [true, 'Name of contact is required!'] },
     phoneNumber: { type: Number, required: [true, 'Number of contact is required!'] },
-    favorite: Boolean,
-    category: String,
-    owner: { type: Objectid },
+    favorite: { type: Boolean, default: false },
+    category: { type: String, default: 'All' },
+    // owner: Objectid,
   },
   { versionKey: false, timestamps: true }
 );
