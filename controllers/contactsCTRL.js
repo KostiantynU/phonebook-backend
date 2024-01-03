@@ -13,9 +13,8 @@ const getAllContacts = async (req, res) => {
 
 const getContactById = async contactId => {
   try {
-    console.log('ContactId in CTRL', contactId);
     const contactById = await Contact.findById(contactId);
-    console.log('contactById', contactById);
+
     if (!contactById) {
       return null;
     }
@@ -34,10 +33,23 @@ const addContact = async reqBody => {
   return newContact;
 };
 
-const deleteContactById = async (req, res) => {};
+const deleteContactById = async contactId => {
+  try {
+    const deletedContact = await Contact.findOneAndDelete(contactId);
+
+    if (!deletedContact) {
+      return 'There is no such contact!';
+    }
+
+    return deletedContact;
+  } catch (error) {
+    RequestError(400);
+  }
+};
 
 module.exports = {
   getAllContacts,
   getContactById,
   addContact,
+  deleteContactById,
 };

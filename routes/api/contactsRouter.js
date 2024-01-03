@@ -1,13 +1,13 @@
 const express = require('express');
 const { RequestError } = require('../../helpers');
-const { addContact, getContactById } = require('../../controllers/contactsCTRL');
+const { addContact, getContactById, deleteContactById } = require('../../controllers/contactsCTRL');
 
 const contactsRouter = express.Router();
 
 contactsRouter.get('/:contactId', async (req, res) => {
   try {
     const { contactId } = req.params;
-    console.log('contactId', contactId);
+
     const contactById = await getContactById(contactId);
 
     if (!contactById) {
@@ -29,6 +29,18 @@ contactsRouter.post('/:contactId', async (req, res) => {
     res.json({ newContact });
   } catch (error) {
     RequestError(500, 'Internal sever error');
+  }
+});
+
+contactsRouter.delete('/:contactId', async (req, res) => {
+  try {
+    const { contactId } = req.params;
+
+    const deletedContact = await deleteContactById(contactId);
+
+    res.status(200).json({ deletedContact });
+  } catch (error) {
+    RequestError(400);
   }
 });
 
