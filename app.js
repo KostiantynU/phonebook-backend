@@ -35,12 +35,13 @@ phoneBookBackend.get('/', (req, res) => {
 phoneBookBackend.use('/api/contacts', contactsRouter);
 
 phoneBookBackend.use((_, res, __) => {
-  res.status(404).json({ code: 404, message: 'Not Found!' });
+  res.status(404).json({ message: 'Not Found!' });
 });
 
 phoneBookBackend.use((error, _, res, __) => {
+  const { status = 500, message = 'Internal server error' } = error;
   console.log(error.stack);
-  res.status(500).json({ code: 500, message: error.message, data: 'Internal sever error' });
+  res.status(status).json({ message, data: error.message });
 });
 
 module.exports = { phoneBookBackend, mongoose };

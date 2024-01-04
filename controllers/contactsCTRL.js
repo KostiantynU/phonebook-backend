@@ -1,55 +1,50 @@
 const Contact = require('../models/contacts');
+const { RequestError, controllerWrapper } = require('../helpers');
 
 const getAllContacts = async (req, res) => {
   const { userId } = req.user;
   const allContacts = await Contact.find({ owner: userId });
 
   if (!allContacts) {
-    res.status(400).json({ message: 'Not found contacts!' });
+    throw RequestError(404);
   }
 
-  return allContacts;
+  res.status(200).json({ allContacts });
 };
 
-const getContactById = async contactId => {
-  try {
-    const contactById = await Contact.findById(contactId);
+const getContactById = async (req, res) => {
+  const { contactId } = req.params;
+  const contactById = await Contact.findById(contactId);
 
-    if (!contactById) {
-      return null;
-    }
-
-    return contactById;
-  } catch (error) {
-    console.log(error.message);
+  if (!contactById) {
+    RequestError(404);
   }
+
+  res.status(200).json({ contactById });
 };
 
-const addContact = async reqBody => {
+const addContact = async (req, res) => {
   // const { userId } = req.user;
-  const newContact = await Contact.create({ ...reqBody });
-  console.log(newContact);
 
-  return newContact;
+  const newContact = await Contact.create({ ...reqBody });
+
+  res.status(201).json(newContact);
 };
 
-const deleteContactById = async contactId => {
-  try {
-    const deletedContact = await Contact.findOneAndDelete(contactId);
+const deleteContactById = async (req, res) => {
+  const { contactId } = req.params;
+  const deletedContact = await Contact.findOneAndDelete(contactId);
 
-    if (!deletedContact) {
-      return 'There is no such contact!';
-    }
-
-    return deletedContact;
-  } catch (error) {
-    RequestError(400);
+  if (!deletedContact) {
+    throw RequestError(404);
   }
+
+  res.status(200).json(deletedContact);
 };
 
 module.exports = {
-  getAllContacts,
-  getContactById,
-  addContact,
-  deleteContactById,
+  getAllContacts: controllerWrapper(getAllContacts),
+  getContactById: controllerWrapper(getContactById),
+  addContact: controllerWrapper(addContact),
+  deleteContactById: controllerWrapper(deleteContactById),
 };
