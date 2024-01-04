@@ -17,7 +17,7 @@ const getContactById = async (req, res) => {
   const contactById = await Contact.findById(contactId);
 
   if (!contactById) {
-    RequestError(404);
+    throw RequestError(404);
   }
 
   res.status(200).json({ contactById });
@@ -26,7 +26,7 @@ const getContactById = async (req, res) => {
 const addContact = async (req, res) => {
   // const { userId } = req.user;
 
-  const newContact = await Contact.create({ ...reqBody });
+  const newContact = await Contact.create({ ...req.body });
 
   res.status(201).json(newContact);
 };
