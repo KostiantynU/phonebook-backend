@@ -9,6 +9,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 
 const contactsRouter = require('./routes/api/contactsRouter');
+const authRouter = require('./routes/api/auth');
 
 const phoneBookBackend = express();
 
@@ -33,6 +34,8 @@ phoneBookBackend.get('/', (req, res) => {
 });
 
 phoneBookBackend.use('/api/contacts', contactsRouter);
+
+phoneBookBackend.use('/api/users', authRouter);
 
 phoneBookBackend.use((_, res, __) => {
   res.status(404).json({ message: 'Not Found!' });
