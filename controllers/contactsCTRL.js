@@ -1,9 +1,11 @@
-const Contact = require('../models/contacts');
+const ContactModel = require('../models/contacts');
 const { RequestError, controllerWrapper } = require('../helpers');
 
 const getAllContacts = async (req, res) => {
-  const { userId } = req.user;
-  const allContacts = await Contact.find({ owner: userId });
+  const { page, limit } = req.query;
+  const skip = (page - 1) * limit;
+
+  const allContacts = await ContactModel.find().skip(skip).limit(limit);
 
   if (!allContacts) {
     throw RequestError(404);
@@ -14,7 +16,7 @@ const getAllContacts = async (req, res) => {
 
 const getContactById = async (req, res) => {
   const { contactId } = req.params;
-  const contactById = await Contact.findById(contactId);
+  const contactById = await ContactModel.findById(contactId);
 
   if (!contactById) {
     throw RequestError(404);
@@ -26,14 +28,14 @@ const getContactById = async (req, res) => {
 const addContact = async (req, res) => {
   // const { userId } = req.user;
 
-  const newContact = await Contact.create({ ...req.body });
+  const newContact = await ContactModel.create({ ...req.body });
 
   res.status(201).json(newContact);
 };
 
 const deleteContactById = async (req, res) => {
   const { contactId } = req.params;
-  const deletedContact = await Contact.findOneAndDelete(contactId);
+  const deletedContact = await ContactModel.findOneAndDelete(contactId);
 
   if (!deletedContact) {
     throw RequestError(404);

@@ -9,7 +9,8 @@ const path = require('path');
 const mongoose = require('mongoose');
 
 const contactsRouter = require('./routes/api/contactsRouter');
-const authRouter = require('./routes/api/auth');
+const authRouter = require('./routes/api/authRouter');
+const usersRouter = require('./routes/api/usersRouter');
 
 const phoneBookBackend = express();
 
@@ -35,13 +36,23 @@ phoneBookBackend.get('/', (req, res) => {
 
 phoneBookBackend.use('/api/contacts', contactsRouter);
 
-phoneBookBackend.use('/api/users', authRouter);
+phoneBookBackend.use('/api/auth', authRouter);
+
+phoneBookBackend.use('/api/users', usersRouter);
 
 phoneBookBackend.use((_, res, __) => {
   res.status(404).json({ message: 'Not Found!' });
 });
 
 phoneBookBackend.use((error, _, res, __) => {
+  if (error.name === 'ValidationError') {
+    return res.status(400).json({ message: 'Incorrect data (ValidationError)' });
+  }
+
+  if (error.message.includes('E11000 duplicate key')) {
+    return res.status(409).json({ message: 'Object with this data already exists' });
+  }
+
   const { status = 500, message = 'Internal server error' } = error;
   console.log(error.stack);
   res.status(status).json({ message, data: error.message });

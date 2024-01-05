@@ -13,6 +13,6 @@ const contactsSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-const Contact = mongoose.model('phoneBookContact', contactsSchema);
+const ContactModel = mongoose.model('phoneBookContact', contactsSchema);
 
-module.exports = Contact;
+module.exports = ContactModel;

@@ -1,5 +1,6 @@
 const { getAllContacts, getContactById, addContact, deleteContactById } = require('./contactsCTRL');
-const { authController } = require('./auth');
+const { authController } = require('./authCTRL');
+const { usersController } = require('./usersCTRL');
 
 module.exports = {
   getAllContacts,
@@ -7,4 +8,5 @@ module.exports = {
   addContact,
   deleteContactById,
   authController,
+  usersController,
 };
