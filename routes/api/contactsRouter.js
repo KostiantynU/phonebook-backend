@@ -1,6 +1,7 @@
 const express = require('express');
 const {
   addContact,
+  updateContact,
   getContactById,
   deleteContactById,
   getAllContacts,
@@ -20,6 +21,8 @@ contactsRouter.post(
   validateBody(contactsSchemaJoi),
   addContact
 );
+
+contactsRouter.patch('/:contactId', controllerWrapper(validateToken), updateContact);
 
 contactsRouter.delete('/:contactId', controllerWrapper(validateToken), deleteContactById);
 

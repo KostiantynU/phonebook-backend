@@ -31,6 +31,22 @@ const addContact = async (req, res) => {
   res.status(201).json(newContact);
 };
 
+const updateContact = async (req, res, next) => {
+  const { contactId } = req.params;
+
+  const updateInfo = {};
+  req.body.contactName && (updateInfo.contactName = req.body.contactName);
+  req.body.phoneNumber && (updateInfo.phoneNumber = req.body.phoneNumber);
+
+  const updatedContact = await ContactModel.findOneAndUpdate(
+    { _id: contactId, owner: req.user._id },
+    { ...updateInfo },
+    { new: true }
+  );
+
+  res.status(200).json({ updatedContact });
+};
+
 const deleteContactById = async (req, res) => {
   const { contactId } = req.params;
   const deletedContact = await ContactModel.findOneAndDelete({
@@ -50,4 +66,5 @@ module.exports = {
   getContactById: controllerWrapper(getContactById),
   addContact: controllerWrapper(addContact),
   deleteContactById: controllerWrapper(deleteContactById),
+  updateContact: controllerWrapper(updateContact),
 };
