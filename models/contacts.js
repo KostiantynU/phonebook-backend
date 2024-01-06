@@ -1,6 +1,5 @@
 // const { mongoose } = require('../app');
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const { Schema, model, Types } = require('mongoose');
 
 const contactsSchema = new Schema(
   {
@@ -8,11 +7,11 @@ const contactsSchema = new Schema(
     phoneNumber: { type: Number, required: [true, 'Number of contact is required!'] },
     favorite: { type: Boolean, default: false },
     category: { type: String, default: 'All' },
-    // owner: { type: mongoose.ObjectId },
+    owner: { type: Types.ObjectId, rel: 'user', required: true },
   },
   { versionKey: false, timestamps: true }
 );
 
-const ContactModel = mongoose.model('phoneBookContact', contactsSchema);
+const ContactModel = model('phoneBookContact', contactsSchema);
 
 module.exports = ContactModel;

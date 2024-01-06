@@ -36,7 +36,7 @@ const login = async (req, res) => {
   }
 
   const token = jwt.sign({ id: existingUser._id, userEmail: existingUser.userEmail }, JWT_SECRET, {
-    expiresIn: '15m',
+    expiresIn: '30m',
   });
 
   return res.status(200).json({ token: token });

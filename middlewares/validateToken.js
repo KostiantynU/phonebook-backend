@@ -25,6 +25,7 @@ const validateToken = async (req, res, next) => {
     });
 
     req.user = user;
+    req.body.owner = user._id;
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
       throw RequestError(401, 'Token expired');

@@ -14,8 +14,13 @@ const contactsRouter = express.Router();
 contactsRouter.get('/', controllerWrapper(validateToken), getAllContacts);
 contactsRouter.get('/:contactId', controllerWrapper(validateToken), getContactById);
 
-contactsRouter.post('/', validateBody(contactsSchemaJoi), addContact);
+contactsRouter.post(
+  '/',
+  controllerWrapper(validateToken),
+  validateBody(contactsSchemaJoi),
+  addContact
+);
 
-contactsRouter.delete('/:contactId', deleteContactById);
+contactsRouter.delete('/:contactId', controllerWrapper(validateToken), deleteContactById);
 
 module.exports = contactsRouter;
