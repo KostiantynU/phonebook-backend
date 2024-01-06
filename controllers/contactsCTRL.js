@@ -33,7 +33,10 @@ const addContact = async (req, res) => {
 
 const deleteContactById = async (req, res) => {
   const { contactId } = req.params;
-  const deletedContact = await ContactModel.findOneAndDelete(contactId);
+  const deletedContact = await ContactModel.findOneAndDelete({
+    _id: contactId,
+    owner: req.user._id,
+  });
 
   if (!deletedContact) {
     throw RequestError(404);
