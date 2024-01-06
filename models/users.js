@@ -11,6 +11,7 @@ const userSchema = new Schema(
     userName: { type: String, required: [true, 'Please type a user name!'] },
     userPassword: { type: String, minLength: [6, 'Password must be at least 6 characters!'] },
     contacts: { type: [Types.ObjectId], rel: 'phoneBookContact' },
+    token: { type: String },
   },
   { versionKey: false, timestamps: true }
 );

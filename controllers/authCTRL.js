@@ -39,7 +39,42 @@ const login = async (req, res) => {
     expiresIn: '30m',
   });
 
+  existingUser.token = token;
+  const updatedExistingUser = await UserModel.findByIdAndUpdate(
+    existingUser._id,
+    { token: token },
+    {
+      new: true,
+    }
+  );
+  console.log(updatedExistingUser);
+
   return res.status(200).json({ token: token });
 };
 
-module.exports = { authController: { registration, login } };
+const logOut = async (req, res) => {
+  const existingUser = await UserModel.findById(req.user._id);
+  if (!existingUser.token) {
+    return res.status(401).json({ message: 'User has already logged out!' });
+  }
+
+  const clearedTokenUser = await UserModel.findOneAndUpdate(
+    { _id: req.user._id },
+    { token: null },
+    {
+      new: true,
+      projection: {
+        userEmail: false,
+        createdAt: false,
+        updatedAt: false,
+        userPassword: false,
+        userName: true,
+        contacts: false,
+      },
+    }
+  );
+
+  res.status(200).json({ message: 'Logout successful', exitedUser: clearedTokenUser });
+};
+
+module.exports = { authController: { registration, login, logOut } };
