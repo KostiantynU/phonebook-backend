@@ -7,7 +7,13 @@ const { JWT_SECRET } = process.env;
 
 const registration = async (req, res) => {
   try {
-    const { userPassword } = req.body;
+    const { userPassword, userEmail } = req.body;
+
+    const existingUser = await UserModel.findOne(userEmail);
+    if (existingUser) {
+      return res.status(409).json({ message: 'Maybe you are already registered?' });
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(userPassword, salt);
 
@@ -47,7 +53,6 @@ const login = async (req, res) => {
       new: true,
     }
   );
-  console.log(updatedExistingUser);
 
   return res.status(200).json({ token: token });
 };

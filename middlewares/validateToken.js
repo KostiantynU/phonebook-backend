@@ -18,14 +18,18 @@ const validateToken = async (req, res, next) => {
 
   try {
     const payload = jwt.verify(token, JWT_SECRET);
-    const user = await UserModel.findById(payload.id, {
+    const existingUser = await UserModel.findById(payload.id, {
       createdAt: 0,
       updatedAt: 0,
       userPassword: 0,
     });
 
-    req.user = user;
-    req.body.owner = user._id;
+    if (token !== existingUser.token) {
+      throw new Error('Tokens not equal');
+    }
+
+    req.user = existingUser;
+    req.body.owner = existingUser._id;
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
       throw RequestError(401, 'Token expired');
@@ -33,6 +37,9 @@ const validateToken = async (req, res, next) => {
 
     if (error instanceof jwt.JsonWebTokenError) {
       throw RequestError(401, 'Invalid token');
+    }
+    if (error.message === 'Tokens not equal') {
+      throw RequestError(401, 'Please sign in!');
     }
   }
 
