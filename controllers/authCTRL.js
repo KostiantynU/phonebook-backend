@@ -54,7 +54,12 @@ const login = async (req, res) => {
     }
   );
 
-  return res.status(200).json({ token: token });
+  return res
+    .status(200)
+    .json({
+      token: token,
+      user: { userName: existingUser.userName, userEmail: existingUser.userEmail },
+    });
 };
 
 const logOut = async (req, res) => {
