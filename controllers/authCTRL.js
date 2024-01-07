@@ -8,8 +8,8 @@ const { JWT_SECRET } = process.env;
 const registration = async (req, res) => {
   try {
     const { userPassword, userEmail } = req.body;
+    const existingUser = await UserModel.findOne({ userEmail: userEmail });
 
-    const existingUser = await UserModel.findOne(userEmail);
     if (existingUser) {
       return res.status(409).json({ message: 'Maybe you are already registered?' });
     }
