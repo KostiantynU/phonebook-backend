@@ -54,12 +54,10 @@ const login = async (req, res) => {
     }
   );
 
-  return res
-    .status(200)
-    .json({
-      token: token,
-      user: { userName: existingUser.userName, userEmail: existingUser.userEmail },
-    });
+  return res.status(200).json({
+    token: token,
+    user: { userName: existingUser.userName, userEmail: existingUser.userEmail },
+  });
 };
 
 const logOut = async (req, res) => {
@@ -87,4 +85,8 @@ const logOut = async (req, res) => {
   res.status(200).json({ message: 'Logout successful', exitedUser: clearedTokenUser });
 };
 
-module.exports = { authController: { registration, login, logOut } };
+const currentUser = async (req, res) => {
+  res.status(200).json(req.user);
+};
+
+module.exports = { authController: { registration, login, logOut, currentUser } };

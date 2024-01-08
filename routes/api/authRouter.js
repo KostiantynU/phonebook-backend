@@ -11,5 +11,6 @@ authRouter.post(
   controllerWrapper(validateToken),
   controllerWrapper(authController.logOut)
 );
+authRouter.get('/current', controllerWrapper(validateToken), authController.currentUser);
 
 module.exports = authRouter;
