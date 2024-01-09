@@ -37,6 +37,8 @@ const updateContact = async (req, res, next) => {
   const updateInfo = {};
   req.body.contactName && (updateInfo.contactName = req.body.contactName);
   req.body.phoneNumber && (updateInfo.phoneNumber = req.body.phoneNumber);
+  req.body.favorite && (updateInfo.favorite = req.body.favorite);
+  req.body.category && (updateInfo.category = req.body.cateogry);
 
   const updatedContact = await ContactModel.findOneAndUpdate(
     { _id: contactId, owner: req.user._id },
@@ -44,7 +46,7 @@ const updateContact = async (req, res, next) => {
     { new: true }
   );
 
-  res.status(200).json({ updatedContact });
+  res.status(200).json(updatedContact);
 };
 
 const deleteContactById = async (req, res) => {
