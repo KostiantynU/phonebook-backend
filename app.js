@@ -24,8 +24,9 @@ const logFileStream = fs.createWriteStream(path.join(__dirname, './log/server.lo
 const formatLogger = phoneBookBackend.get('env') === 'development' ? 'combined' : 'short';
 phoneBookBackend.use(logger(formatLogger, { stream: logFileStream }));
 
+let count = 0;
 phoneBookBackend.use(async (req, res, next) => {
-  console.log('This is my own middleware');
+  console.log(`This is my own middleware started: ${(count += 1)}`);
 
   next();
 });

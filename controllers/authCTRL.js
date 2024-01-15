@@ -42,10 +42,9 @@ const login = async (req, res) => {
   }
 
   const token = jwt.sign({ id: existingUser._id, userEmail: existingUser.userEmail }, JWT_SECRET, {
-    expiresIn: '30m',
+    expiresIn: '30s',
   });
 
-  existingUser.token = token;
   const updatedExistingUser = await UserModel.findByIdAndUpdate(
     existingUser._id,
     { token: token },
@@ -55,8 +54,11 @@ const login = async (req, res) => {
   );
 
   return res.status(200).json({
-    token: token,
-    user: { userName: existingUser.userName, userEmail: existingUser.userEmail },
+    user: {
+      userName: updatedExistingUser.userName,
+      userEmail: updatedExistingUser.userEmail,
+      token: updatedExistingUser.token,
+    },
   });
 };
 

@@ -57,7 +57,7 @@ const deleteContactById = async (req, res) => {
   });
 
   if (!deletedContact) {
-    throw RequestError(404);
+    throw RequestError(404, 'Not found contact!');
   }
 
   res.status(200).json({ message: 'successfull', deletedContact });
