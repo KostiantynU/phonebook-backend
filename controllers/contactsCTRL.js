@@ -37,7 +37,7 @@ const updateContact = async (req, res, next) => {
   const updateInfo = {};
   req.body.contactName && (updateInfo.contactName = req.body.contactName);
   req.body.phoneNumber && (updateInfo.phoneNumber = req.body.phoneNumber);
-  req.body.favorite && (updateInfo.favorite = req.body.favorite);
+  updateInfo.favorite = req.body.favorite;
   req.body.category && (updateInfo.category = req.body.cateogry);
 
   const updatedContact = await ContactModel.findOneAndUpdate(

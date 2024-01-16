@@ -42,7 +42,7 @@ const login = async (req, res) => {
   }
 
   const token = jwt.sign({ id: existingUser._id, userEmail: existingUser.userEmail }, JWT_SECRET, {
-    expiresIn: '30s',
+    expiresIn: '5m',
   });
 
   const updatedExistingUser = await UserModel.findByIdAndUpdate(
