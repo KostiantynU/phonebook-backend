@@ -5,6 +5,7 @@ const contactsJoiSchema = joi.object({
   phoneNumber: joi.string().required(),
   favorite: joi.bool(),
   owner: joi.object().required(),
+  category: joi.string().required(),
 });
 
 module.exports = contactsJoiSchema;
