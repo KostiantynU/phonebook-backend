@@ -19,7 +19,22 @@ const registration = async (req, res) => {
 
     const newUser = await UserModel.create({ ...req.body, userPassword: hashedPassword });
 
-    res.json({ ok: true, newUser: { id: newUser._id, userName: newUser.userName } });
+    const token = jwt.sign({ id: newUser._id, userEmail: newUser.userEmail }, JWT_SECRET, {
+      expiresIn: '10m',
+    });
+
+    newUser.token = token;
+    await newUser.save();
+
+    res.json({
+      ok: true,
+      newUser: {
+        id: newUser._id,
+        userName: newUser.userName,
+        userEmail: newUser.userEmail,
+        token: newUser.token,
+      },
+    });
   } catch (error) {
     if (error.message.includes('E11000 duplicate key')) {
       throw RequestError(409, 'User with this email already exists');

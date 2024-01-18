@@ -2,10 +2,19 @@ const express = require('express');
 const authRouter = express.Router();
 const { authController } = require('../../controllers');
 const { controllerWrapper } = require('../../helpers');
-const { validateToken } = require('../../middlewares');
+const { validateToken, validateBody } = require('../../middlewares');
+const { usersAuthSchemas } = require('../../schemas/usersJoiSchema');
 
-authRouter.post('/register', controllerWrapper(authController.registration));
-authRouter.post('/login', controllerWrapper(authController.login));
+authRouter.post(
+  '/register',
+  validateBody(usersAuthSchemas.usersRegisterJoiSchema),
+  controllerWrapper(authController.registration)
+);
+authRouter.post(
+  '/login',
+  validateBody(usersAuthSchemas.usersLoginJoiSchema),
+  controllerWrapper(authController.login)
+);
 authRouter.post(
   '/logout',
   controllerWrapper(validateToken),

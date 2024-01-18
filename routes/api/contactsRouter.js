@@ -6,7 +6,7 @@ const {
   deleteContactById,
   getAllContacts,
 } = require('../../controllers/contactsCTRL');
-const contactsSchemaJoi = require('../../schemas/contactsSchema');
+const contactsJoiSchema = require('../../schemas/contactsJoiSchema');
 const { validateBody, validateToken } = require('../../middlewares');
 const { controllerWrapper } = require('../../helpers');
 
@@ -18,7 +18,7 @@ contactsRouter.get('/:contactId', controllerWrapper(validateToken), getContactBy
 contactsRouter.post(
   '/',
   controllerWrapper(validateToken),
-  validateBody(contactsSchemaJoi),
+  validateBody(contactsJoiSchema),
   addContact
 );
 

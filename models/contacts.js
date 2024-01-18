@@ -1,4 +1,3 @@
-// const { mongoose } = require('../app');
 const { Schema, model, Types } = require('mongoose');
 
 const contactsSchema = new Schema(
