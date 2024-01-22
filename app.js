@@ -18,18 +18,19 @@ phoneBookBackend.use(express.json());
 phoneBookBackend.use(cors());
 // phoneBookBackend.use('/public', express.static(__dirname + '/public')); // Middleware for sending public files, maybe I use it later
 
-const logFileStream = fs.createWriteStream(path.join(__dirname, './log/server.log'), {
-  flags: 'a',
-});
+// const logFileStream = fs.createWriteStream(path.join(__dirname, './log/server.log'), {
+//   flags: 'a',
+// });
 const formatLogger = phoneBookBackend.get('env') === 'development' ? 'combined' : 'short';
 phoneBookBackend.use(logger(formatLogger, { stream: logFileStream }));
+phoneBookBackend.use(logger(formatLogger));
 
-let count = 0;
-phoneBookBackend.use(async (req, res, next) => {
-  console.log(`This is my own middleware started: ${(count += 1)}`);
+// let count = 0;
+// phoneBookBackend.use(async (req, res, next) => {
+//   console.log(`This is my own middleware started: ${(count += 1)}`);
 
-  next();
-});
+//   next();
+// });
 
 phoneBookBackend.get('/', (req, res) => {
   res.send('Hello World!');
