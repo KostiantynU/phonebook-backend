@@ -12,10 +12,17 @@ const contactsRouter = require('./routes/api/contactsRouter');
 const authRouter = require('./routes/api/authRouter');
 const usersRouter = require('./routes/api/usersRouter');
 
+const corsConfig = {
+  origin: '*',
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  preflightContinue: false,
+  optionsSuccesStatus: 204,
+};
+
 const phoneBookBackend = express();
 
 phoneBookBackend.use(express.json());
-phoneBookBackend.use(cors());
+phoneBookBackend.use(cors(corsConfig));
 // phoneBookBackend.use('/public', express.static(__dirname + '/public')); // Middleware for sending public files, maybe I use it later
 
 // const logFileStream = fs.createWriteStream(path.join(__dirname, './log/server.log'), {
@@ -31,9 +38,9 @@ phoneBookBackend.use(logger(formatLogger));
 
 //   next();
 // });
-phoneBookBackend.options('*', cors());
+// phoneBookBackend.options('*', cors());
 phoneBookBackend.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Hello World! This is learning project! This is backend for phonebook!');
 });
 
 phoneBookBackend.use('/api/contacts', contactsRouter);
