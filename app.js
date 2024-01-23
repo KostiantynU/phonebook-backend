@@ -28,7 +28,7 @@ phoneBookBackend.use(cors(corsConfig));
 // const logFileStream = fs.createWriteStream(path.join(__dirname, './log/server.log'), {
 //   flags: 'a',
 // });
-// const formatLogger = phoneBookBackend.get('env') === 'development' ? 'combined' : 'short';
+const formatLogger = phoneBookBackend.get('env') === 'development' ? 'combined' : 'short';
 // phoneBookBackend.use(logger(formatLogger, { stream: logFileStream }));
 phoneBookBackend.use(logger(formatLogger));
 
