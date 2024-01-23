@@ -6,7 +6,7 @@ mongoose
   .connect(DB_HOST)
   .then(() => {
     phoneBookBackend.listen(PORT, () => {
-      console.log('Server started!');
+      console.log(`Server started at port: ${PORT}!`);
     });
   })
   .catch(error => {
