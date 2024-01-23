@@ -5,7 +5,7 @@ const { DB_HOST } = process.env;
 mongoose
   .connect(DB_HOST)
   .then(() => {
-    phoneBookBackend.listen(80, () => {
+    phoneBookBackend.listen(3000, () => {
       console.log('Server started!');
     });
   })
