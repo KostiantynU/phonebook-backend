@@ -16,7 +16,7 @@ const corsConfig = {
   origin: '*',
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: false,
-  optionsSuccesStatus: 204,
+  optionsSuccessStatus: 204,
 };
 
 const phoneBookBackend = express();
