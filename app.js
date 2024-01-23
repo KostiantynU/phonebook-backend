@@ -14,7 +14,7 @@ const usersRouter = require('./routes/api/usersRouter');
 
 const corsConfig = {
   origin: '*',
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   preflightContinue: false,
   optionsSuccessStatus: 204,
 };
