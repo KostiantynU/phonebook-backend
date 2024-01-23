@@ -21,8 +21,8 @@ phoneBookBackend.use(cors());
 // const logFileStream = fs.createWriteStream(path.join(__dirname, './log/server.log'), {
 //   flags: 'a',
 // });
-const formatLogger = phoneBookBackend.get('env') === 'development' ? 'combined' : 'short';
-phoneBookBackend.use(logger(formatLogger, { stream: logFileStream }));
+// const formatLogger = phoneBookBackend.get('env') === 'development' ? 'combined' : 'short';
+// phoneBookBackend.use(logger(formatLogger, { stream: logFileStream }));
 phoneBookBackend.use(logger(formatLogger));
 
 // let count = 0;
@@ -31,7 +31,7 @@ phoneBookBackend.use(logger(formatLogger));
 
 //   next();
 // });
-
+phoneBookBackend.options('*', cors());
 phoneBookBackend.get('/', (req, res) => {
   res.send('Hello World!');
 });
