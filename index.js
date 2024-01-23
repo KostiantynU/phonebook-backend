@@ -1,6 +1,6 @@
 const { phoneBookBackend, mongoose } = require('./app');
 
-const { DB_HOST } = process.env;
+const { DB_HOST, PORT } = process.env;
 
 mongoose
   .connect(DB_HOST)
