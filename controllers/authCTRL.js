@@ -20,7 +20,7 @@ const registration = async (req, res) => {
     const newUser = await UserModel.create({ ...req.body, userPassword: hashedPassword });
 
     const token = jwt.sign({ id: newUser._id, userEmail: newUser.userEmail }, JWT_SECRET, {
-      expiresIn: '10m',
+      expiresIn: '10s',
     });
 
     newUser.token = token;
@@ -57,7 +57,7 @@ const login = async (req, res) => {
   }
 
   const token = jwt.sign({ id: existingUser._id, userEmail: existingUser.userEmail }, JWT_SECRET, {
-    expiresIn: '5m',
+    expiresIn: '20s',
   });
 
   const updatedExistingUser = await UserModel.findByIdAndUpdate(

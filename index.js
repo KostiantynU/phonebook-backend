@@ -11,5 +11,6 @@ mongoose
   })
   .catch(error => {
     console.log('Something goes wrong');
+    console.log(error);
     process.exit(1);
   });
